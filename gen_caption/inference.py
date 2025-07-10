@@ -6,6 +6,7 @@ from typing import Any, Dict, List
 from tqdm import tqdm
 from openai import OpenAI
 from pprint import pprint as pp
+import time
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='VLM Multi-GPU Inference using OpenAI API')
@@ -28,8 +29,6 @@ def parse_arguments():
     return parser.parse_args()
 
 
-SYSTEM_PROMPT = "You are a helpful assistant."
-cams = ["CAM_FRONT_LEFT", "CAM_FRONT", "CAM_FRONT_RIGHT", "CAM_BACK_LEFT", "CAM_BACK", "CAM_BACK_RIGHT"]
 
 class VLMAPIInference:
     def __init__(self, model_name: str, api_base: str, temperature: float, 
@@ -44,13 +43,15 @@ class VLMAPIInference:
         self.top_p = top_p
         self.max_tokens = max_tokens
 
+        self.system = "你是书生·万象，英文名是InternVL，是由上海人工智能实验室、清华大学及多家合作单位联合开发的多模态大语言模型。"
+        self.question = "This is a picture of an autonomous driving scene. Based on the provided image, the road scene around the vehicle is described in detail." # TODO
+
     def process_sample(self, key: str, img_paths: Dict[str, str]) -> str:
-        messages = [
-            {"role": "system", "content": SYSTEM_PROMPT}
-        ]
-        
         res = {}
         for camera_view, img_path in img_paths.items():
+            messages = [
+                {"role": "system", "content": self.system}
+            ]
             content = []
             img_path = os.path.join("/aojidata-sh/llm/Qwen2.5-VL/qwen-vl-finetune/data/16g/nuscenes", img_path)
             
@@ -77,10 +78,9 @@ class VLMAPIInference:
                 return "Error: No valid images found to process."
             
             # Add the question
-            question = "This is a picture of an autonomous driving scene. Based on the provided image, the road scene around the vehicle is described in detail." # TODO
             content.append({
                 "type": "text",
-                "text": question
+                "text": self.question
             })
             
             messages.append({
@@ -88,10 +88,13 @@ class VLMAPIInference:
                 "content": content
             })
 
+            # test
             # breakpoint()
             # pp(messages)
+            # time.sleep(1)
             res[camera_view] = "res..."
 
+            # client
             # try:
             #     # Call the API with retries
             #     max_retries = 3
