@@ -126,21 +126,6 @@ class VLMAPIInference:
         
         return res
 
-def load_or_create_output(output_path: str) -> List[Dict[str, Any]]:
-    """Load existing output if it exists, or create a new output file."""
-    if os.path.exists(output_path):
-        try:
-            with open(output_path, 'r') as f:
-                existing_data = json.load(f)
-            print(f"Loaded {len(existing_data)} existing results from {output_path}")
-            return existing_data
-        except Exception as e:
-            print(f"Error loading existing output file: {str(e)}. Starting fresh.")
-            return []
-    else:
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        return []
-
 def save_output(output_path: str, data: List[Dict[str, Any]]):
     """Save output data to file."""
     temp_path = output_path + '.tmp'
@@ -159,7 +144,7 @@ def save_output(output_path: str, data: List[Dict[str, Any]]):
 def process_qa_data(vlm: VLMAPIInference, data: List[Dict[str, Any]], output_path: str) -> List[Dict[str, Any]]:
     """Process QA data and generate answers, saving results in real-time."""
     # Load existing results or create new output file
-    output_data = load_or_create_output(output_path)
+    output_data = {}
     
     # Process each remaining sample
     with tqdm(total=len(data), desc="Processing samples") as pbar:
@@ -170,11 +155,11 @@ def process_qa_data(vlm: VLMAPIInference, data: List[Dict[str, Any]], output_pat
             
             output_v['answer'] = answer
             
-            output_data.append(output_v)
-            
-            save_output(output_path, output_data)
+            output_data[k] = output_v
             
             pbar.update(1)
+        
+        save_output(output_path, output_data)
     
     return output_data
 
