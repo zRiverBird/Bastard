@@ -126,25 +126,10 @@ class VLMAPIInference:
         
         return res
 
-def save_output(output_path: str, data: List[Dict[str, Any]]):
-    """Save output data to file."""
-    temp_path = output_path + '.tmp'
-    try:
-        with open(temp_path, 'w') as f:
-            json.dump(data, f, indent=2)
-        os.replace(temp_path, output_path)
-    except Exception as e:
-        print(f"Error saving output: {str(e)}")
-        if os.path.exists(temp_path):
-            try:
-                os.remove(temp_path)
-            except:
-                pass
-
 def process_qa_data(vlm: VLMAPIInference, data: List[Dict[str, Any]], output_path: str) -> List[Dict[str, Any]]:
     """Process QA data and generate answers, saving results in real-time."""
     # Load existing results or create new output file
-    output_data = {}
+    output_file = open(output_path, 'w')
     
     # Process each remaining sample
     with tqdm(total=len(data), desc="Processing samples") as pbar:
@@ -155,11 +140,10 @@ def process_qa_data(vlm: VLMAPIInference, data: List[Dict[str, Any]], output_pat
             
             output_v['answer'] = answer
             
-            output_data[k] = output_v
-            
+            output_data = {k: output_v}
+            output_file.write(json.dumps(output_data) + '\n')
+
             pbar.update(1)
-        
-        save_output(output_path, output_data)
     
     return output_data
 
