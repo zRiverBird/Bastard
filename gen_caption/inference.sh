@@ -1,13 +1,13 @@
 set -x
 
-MODEL_PATH=""/aojidata-sh/llm/internvl3/internvl_chat/pretrain/InternVL3-8B/""
+MODEL_PATH="/aojidata-sh/llm/internvl3/internvl_chat/pretrain/InternVL3-8B/"
 INPUT_DATA="./images.json"
 OUTPUT_DIR="./"
 MAX_MODEL_LEN=16384
 TEMPERATURE=0
 TOP_P=0.9
 MAX_TOKENS=1024
-PORT=8000
+PORT=8001
 
 mkdir -p ${OUTPUT_DIR}
 

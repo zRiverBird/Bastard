@@ -44,7 +44,7 @@ class VLMAPIInference:
         self.max_tokens = max_tokens
 
         self.system = "你是书生·万象，英文名是InternVL，是由上海人工智能实验室、清华大学及多家合作单位联合开发的多模态大语言模型。"
-        self.question = "This is a picture of an autonomous driving scene. Based on the provided image, the road scene around the vehicle is described in detail." # TODO
+        self.question = "This is a picture of an autonomous driving scene. Based on the image provided, please briefly describe the road scene around the vehicle." # TODO
 
     def process_sample(self, key: str, img_paths: Dict[str, str]) -> str:
         res = {}
@@ -92,37 +92,37 @@ class VLMAPIInference:
             # breakpoint()
             # pp(messages)
             # time.sleep(1)
-            res[camera_view] = "res..."
+            # res[camera_view] = "res..."
 
             # client
-            # try:
-            #     # Call the API with retries
-            #     max_retries = 3
-            #     retry_delay = 1
+            try:
+                # Call the API with retries
+                max_retries = 3
+                retry_delay = 1
                 
-            #     for attempt in range(max_retries):
-            #         try:
-            #             response = self.client.chat.completions.create(
-            #                 model=self.model,
-            #                 messages=messages,
-            #                 temperature=self.temperature,
-            #                 top_p=self.top_p,
-            #                 max_tokens=self.max_tokens
-            #             )
-            #             res[camera_view] = response.choices[0].message.content
-            #             break
-            #             # return response.choices[0].message.content
-            #         except Exception as e:
-            #             if attempt == max_retries - 1:
-            #                 raise 
-            #             print(f"API call failed (attempt {attempt + 1}/{max_retries}): {str(e)}. Retrying in {retry_delay}s...")
-            #             time.sleep(retry_delay)
-            #             retry_delay *= 2
+                for attempt in range(max_retries):
+                    try:
+                        response = self.client.chat.completions.create(
+                            model=self.model,
+                            messages=messages,
+                            temperature=self.temperature,
+                            top_p=self.top_p,
+                            max_tokens=self.max_tokens
+                        )
+                        res[camera_view] = response.choices[0].message.content
+                        break
+                        # return response.choices[0].message.content
+                    except Exception as e:
+                        if attempt == max_retries - 1:
+                            raise
+                        print(f"API call failed (attempt {attempt + 1}/{max_retries}): {str(e)}. Retrying in {retry_delay}s...")
+                        time.sleep(retry_delay)
+                        retry_delay *= 2
                         
-            # except Exception as e:
-            #     error_msg = f"Error calling API: {str(e)}"
-            #     print(error_msg)
-            #     return error_msg
+            except Exception as e:
+                error_msg = f"Error calling API: {str(e)}"
+                print(error_msg)
+                return error_msg
         
         return res
 
@@ -142,6 +142,7 @@ def process_qa_data(vlm: VLMAPIInference, data: List[Dict[str, Any]], output_pat
             
             output_data = {k: output_v}
             output_file.write(json.dumps(output_data) + '\n')
+            output_file.flush()
 
             pbar.update(1)
     
