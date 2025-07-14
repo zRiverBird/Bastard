@@ -1,0 +1,20 @@
+This image captures a scene from an autonomous driving scenario. Please describe the surroundings of the vehicle.
+Based on this autonomous driving image, please summarize the road environment near the car.
+This is an autonomous driving frame. Describe what you see around the vehicle.
+Please analyze the road conditions shown in this self-driving image.
+From this image taken by a self-driving vehicle, describe the nearby traffic situation.
+Observe the following autonomous driving scene and briefly describe the vehicle’s surroundings.
+Based on this picture from a self-driving system, describe the nearby road elements.
+Given this frame from an autonomous car's camera, describe the road scene.
+Please provide a brief description of the driving environment shown in this autonomous driving image.
+From this driving image, what can you tell about the surroundings of the vehicle?
+Look at the image from the self-driving vehicle and describe what’s happening on the road.
+Please identify and describe the key elements around the car in this autonomous scene.
+Based on the following self-driving view, summarize the road and traffic conditions.
+This is a visual from an autonomous vehicle. Describe the nearby scene.
+In this self-driving image, explain the road situation around the vehicle.
+Please describe the objects and road layout shown in this autonomous driving image.
+View this frame captured by an autonomous vehicle and describe the nearby environment.
+This image shows what an autonomous vehicle sees. Please describe the road context.
+Refer to this driving scene and give a brief overview of the surrounding road area.
+Using the provided self-driving image, describe what surrounds the vehicle.
