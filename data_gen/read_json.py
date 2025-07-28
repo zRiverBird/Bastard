@@ -87,8 +87,8 @@ def process_json(json_file, input_pic_path, output_path, output_json_file):
     # 命令行入口
 def main():
     parser = argparse.ArgumentParser(description="拼接六视图图像并保存JSON")
-    parser.add_argument('--json_file', type=str, default="/home/b311/data/zjp/DriveLM/data_gen/300g.json", help='输入JSON路径')
-    parser.add_argument('--input_pic_path', type=str, default="/home/b311/data/zjp/DriveLM/data/nuscenes/nuscenes/v1.0-trainval/samples", help='原始图像样本文件夹路径，例如：samples')
+    parser.add_argument('--json_file', type=str, default="/aojidata-sh/llm/Bastard/gen_caption/images/300g.json", help='输入JSON路径')
+    parser.add_argument('--input_pic_path', type=str, default="/aojidata-sh/llm/Qwen2.5-VL/qwen-vl-finetune/data/nuscenes/samples", help='原始图像样本文件夹路径，例如：samples')
     parser.add_argument('--output_dir', type=str, default="./output_images", help='输出图像保存目录')
     parser.add_argument('--output_json', type=str, default="./concat_output.json", help='保存更新后的JSON路径')
     args = parser.parse_args()
